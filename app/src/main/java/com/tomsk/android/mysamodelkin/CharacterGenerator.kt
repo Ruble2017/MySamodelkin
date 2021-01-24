@@ -1,7 +1,9 @@
 package com.tomsk.android.mysamodelkin
 
-class CharacterGenerator {
-    private fun <T> List<T>.rand() = shuffled().first()
+import java.io.Serializable
+
+
+private fun <T> List<T>.rand() = shuffled().first()
 
     private fun Int.roll() = (0 until this)
         .map { (1..6).toList().rand() }
@@ -11,13 +13,13 @@ class CharacterGenerator {
     private val firstName = listOf("Eli", "Alex", "Sophie")
     private val lastName = listOf("Lightweaver", "Greatfoot", "Oakenfeld")
 
-    companion  object CharacterGenerator {
+    object CharacterGenerator {
 
         data class CharacterData(val name: String,
                                  val race: String,
                                  val dex: String,
                                  val wis: String,
-                                 val str: String)
+                                 val str: String): Serializable
 
         private fun name() = "${firstName.rand()} ${lastName.rand()}"
         private fun race() = listOf("dwarf", "elf", "human", "halfling").rand()
@@ -31,4 +33,3 @@ class CharacterGenerator {
             str = str())
         
     }
-}
