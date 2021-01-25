@@ -22,7 +22,7 @@ private fun <T> List<T>.rand() = shuffled().first()
 
        return GlobalScope.async {
             val apiData = URL(CHARACTER_DATA_API).readText()
-           Log.d(TAG, " ---------<<<<<<<<<<<<<<   $apiData")
+           //Log.d(TAG, " ---------<<<<<<<<<<<<<<  $apiData")
             CharacterGenerator.fromApiData(apiData)
        }
     }
