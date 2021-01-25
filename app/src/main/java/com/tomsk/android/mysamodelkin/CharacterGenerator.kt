@@ -1,7 +1,15 @@
 package com.tomsk.android.mysamodelkin
 
-import java.io.Serializable
 
+
+import android.util.Log
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import java.io.Serializable
+import java.net.URL
+
+private const val CHARACTER_DATA_API = "https://chargen-api.herokuapp.com/"
 
 private fun <T> List<T>.rand() = shuffled().first()
 
@@ -10,7 +18,21 @@ private fun <T> List<T>.rand() = shuffled().first()
         .sum()
         .toString()
 
-    private val firstName = listOf("Eli", "Alex", "Sophie")
+    fun fetchCharacterData(): Deferred<CharacterGenerator.CharacterData> {
+
+       return GlobalScope.async {
+            val apiData = URL(CHARACTER_DATA_API).readText()
+           Log.d(TAG, " ---------<<<<<<<<<<<<<<   $apiData")
+            CharacterGenerator.fromApiData(apiData)
+       }
+    }
+
+
+
+
+
+
+private val firstName = listOf("Eli", "Alex", "Sophie")
     private val lastName = listOf("Lightweaver", "Greatfoot", "Oakenfeld")
 
     object CharacterGenerator {
@@ -20,6 +42,12 @@ private fun <T> List<T>.rand() = shuffled().first()
                                  val dex: String,
                                  val wis: String,
                                  val str: String): Serializable
+
+        fun fromApiData(apiData: String): CharacterData {
+
+            val (race, name, dex, wis, str) =  apiData.split(",")
+            return CharacterData(name, race, dex, wis, str)
+        }
 
         private fun name() = "${firstName.rand()} ${lastName.rand()}"
         private fun race() = listOf("dwarf", "elf", "human", "halfling").rand()
