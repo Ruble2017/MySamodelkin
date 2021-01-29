@@ -27,12 +27,7 @@ private fun <T> List<T>.rand() = shuffled().first()
        }
     }
 
-
-
-
-
-
-private val firstName = listOf("Eli", "Alex", "Sophie")
+    private val firstName = listOf("Eli", "Alex", "Sophie")
     private val lastName = listOf("Lightweaver", "Greatfoot", "Oakenfeld")
 
     object CharacterGenerator {
